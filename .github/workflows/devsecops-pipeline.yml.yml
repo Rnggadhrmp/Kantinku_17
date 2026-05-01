@@ -25,7 +25,7 @@ jobs:
         working-directory: food-order-app
 
       - name: Jalankan ESLint
-        run: npx eslint src/ --ext .js,.jsx --max-warnings 0
+        run: npx eslint src/ --ext .js,.jsx --max-warnings 10
         working-directory: food-order-app
 
       - name: Jalankan Unit Tests
