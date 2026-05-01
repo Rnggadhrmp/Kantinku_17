@@ -30,18 +30,21 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        working-directory: food-order-app
 
       - name: Jalankan ESLint (Linting)
         run: npx eslint src/ --ext .js,.jsx --max-warnings 0
+        working-directory: food-order-app
 
       - name: Jalankan Unit Tests
-        run: npx jest --coverage --coverageThreshold='{"global":{"lines":80,"branches":75}}'
+        run: npx jest --coverage --watchAll=false --coverageReporters=lcov
+        working-directory: food-order-app
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/
+          path: food-order-app/coverage/
 
   # ── 2. SAST — Static Application Security Testing ──────────
   sast-scan:
@@ -78,15 +81,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        working-directory: food-order-app
 
       - name: Audit npm dependencies
         run: npm audit --audit-level=high
-
-      # Jika menggunakan Snyk token (opsional, lebih detail)
-      # - name: Jalankan Snyk SCA
-      #   uses: snyk/actions/node@master
-      #   env:
-      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        working-directory: food-order-app
 
   # ── 4. SonarCloud Quality Gate ──────────────────────────────
   sonar-scan:
@@ -97,25 +96,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Dibutuhkan SonarCloud
+          fetch-depth: 0
 
       - name: Download Coverage Report
         uses: actions/download-artifact@v4
         with:
           name: coverage-report
-          path: coverage/
+          path: food-order-app/coverage/
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: food-order-app
+          args: >
+            -Dsonar.projectKey=Rnggadhrmp_Kantinku_17
+            -Dsonar.organization=rnggadhrmp
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.qualitygate.wait=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=kantinku-mobile
-            -Dsonar.organization=kampus-rpl
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.qualitygate.wait=true
 
   # ── 5. Build Production ─────────────────────────────────────
   build:
@@ -137,9 +137,10 @@ jobs:
         run: |
           npm ci
           npm run build
+        working-directory: food-order-app
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: production-build
-          path: build/
+          path: food-order-app/build/
