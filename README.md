@@ -5,7 +5,7 @@
 
 ## Deskripsi Proyek
 
-KantinKu adalah aplikasi pemesanan makanan kampus berbasis web yang dibangun menggunakan React.js sebagai studi kasus implementasi kualitas perangkat lunak. Proyek ini mendemonstrasikan penerapan prinsip *Shift-Left Testing*, *Static Analysis*, dan pipeline *DevSecOps* dalam siklus pengembangan perangkat lunak.
+KantinKu adalah aplikasi pemesanan makanan kampus berbasis web yang dibangun menggunakan React.js sebagai studi kasus implementasi kualitas perangkat lunak. Proyek ini mendemonstrasikan penerapan prinsip *Shift-Left Testing*, *Static Analysis*, dan pipeline *DevSecOps* dalam siklus pengembangan perangkat lunak. 
 
 ## Anggota Kelompok
 
