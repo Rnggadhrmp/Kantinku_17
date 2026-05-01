@@ -35,7 +35,7 @@ function generateOrderId() {
 }
 
 export default function CheckoutPage() {
-  const { currentUser, cartState, setActivePage, handleOrderComplete, showToast } =
+  const { currentUser, cartState, setActivePage, handleOrderComplete } =
     useAppContext();
 
   const [paymentMethod, setPaymentMethod] = useState("");
